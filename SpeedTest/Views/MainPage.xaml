@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:SpeedTest.Views" x:Class="SpeedTest.Views.MainPage" xmlns:customBehaviors="using:SpeedTest.Behaviors;assembly=EventToCommandBehavior" xmlns:control="clr-namespace:SpeedTest.CustomRenders" xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" BackgroundColor="White">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Priority="0" Command="{Binding LogoutClickedCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+            <!--<StackLayout Orientation="Vertical" VerticalOptions="Start" HorizontalOptions="FillAndExpand" HeightRequest="60" BackgroundColor="#211261">
+                <Label Text="Cinnamon Speed Test" FontSize="Large" TextColor="#008FBE" HeightRequest="60" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            </StackLayout>-->
+            <StackLayout Padding="20,10,20,10" Orientation="Vertical" VerticalOptions="Start" HorizontalOptions="FillAndExpand" HeightRequest="60" BackgroundColor="Transparent">
+                <Button Text="{Binding HotelName}" FontSize="Medium" TextColor="Navy" HeightRequest="40" VerticalOptions="Center" BackgroundColor="Transparent" BorderWidth="2" BorderColor="Navy" Command="{Binding ChangeHotelCommand}">
+                </Button>
+            </StackLayout>
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IndicatorVisible}" Color="Lime" HeightRequest="100" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label Text="Please wait... Initializing Test Client." IsVisible="{Binding IndicatorVisible}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Blue" />
+            <control:WebViewer x:Name="webView" VerticalOptions="Start" HorizontalOptions="FillAndExpand" WidthRequest="600" HeightRequest="500" MinimumHeightRequest="500" Source="https://cinnamonspeed.azurewebsites.net" IsVisible="false" RefreshCommand="{Binding PageRefreshCommand}">
+                <control:WebViewer.Behaviors>
+                    <customBehaviors:EventToCommandBehavior EventName="Navigating" Command="{Binding WebNavigatingCommand}" />
+                    <customBehaviors:EventToCommandBehavior EventName="Navigated" Command="{Binding WebNavigatedCommand}" />
+                </control:WebViewer.Behaviors>
+            </control:WebViewer>
+            <!--<Grid VerticalOptions="Start" HorizontalOptions="Center" HeightRequest="210" MinimumHeightRequest="200" Margin="10,-150,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <lottie:AnimationView Grid.Row="0" Grid.Column="0" Loop="true" AutoPlay="true" Speed="1" Animation="loading.json" WidthRequest="500" HeightRequest="200" IsVisible="{Binding IsAnimationVisible}" />
+                <Button Grid.Row="0" Grid.Column="0" Text="Test Again" BackgroundColor="White" BorderColor="#211261" BorderWidth="3" TextColor="#211261" WidthRequest="100" HeightRequest="100" IsVisible="{Binding IsRefreshVisible}"
+                    Command="{Binding RefreshButtonCommand}" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Button.BorderRadius>
+                        <OnPlatform x:TypeArguments="x:Int32" iOS="100" Android="50" />
+                    </Button.BorderRadius>
+                </Button>
+            </Grid>-->
+            <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Center" HeightRequest="50" BackgroundColor="Transparent" IsVisible="{Binding IsVisibleButtons}" MinimumHeightRequest="50" Margin="10">
+                <Button x:Name="resultButton" Text="Go to result" BackgroundColor="#211261" TextColor="White" WidthRequest="150" HeightRequest="40" Command="{Binding ResultButtonCommand}" IsEnabled="{Binding IsEnabledButtons}">
+                    <Button.BorderRadius>
+                        <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
+                    </Button.BorderRadius>
+                </Button>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

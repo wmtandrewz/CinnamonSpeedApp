@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg,Plugins.Popup"
+             x:Class="SpeedTest.Views.InputDialog">
+            
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="White" Padding="20,20,20,20" WidthRequest="500">
+
+        <Label Text="Room Number" FontSize="Large" TextColor="Purple" HorizontalTextAlignment="Center"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <Entry Grid.Row="0" Grid.Column="0" Placeholder="Enter Room Number" BackgroundColor="Silver" WidthRequest="300" PlaceholderColor="Gray" HeightRequest="50" x:Name="popupEntry" Keyboard="Numeric"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="X" BackgroundColor="Red" TextColor="White" FontSize="Large" WidthRequest="40" HeightRequest="10" Clicked="ClearClicked"/>
+            
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Text="Save" BackgroundColor="Navy" TextColor="White" WidthRequest="100" HeightRequest="50" Clicked="OKClicked"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="Cancel" BackgroundColor="Maroon" TextColor="White" WidthRequest="100" HeightRequest="50" Clicked="CancelClicked"/>
+        </Grid>
+
+    </StackLayout>
+    
+</pages:PopupPage>

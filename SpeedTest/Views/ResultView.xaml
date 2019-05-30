@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SpeedTest.Views.ResultView" Title="Test Results" BackgroundColor="White">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsResultVisible}">
+                    <Grid Padding="20" Margin="10,10,10,10" VerticalOptions="Start">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Wi-Fi SSID" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding SSID}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="Access Point" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding BSSID}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="2" Grid.Column="0" Text="Wi-Fi Strength" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Strength}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="3" Grid.Column="0" Text="Hotel" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding HotelName}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="4" Grid.Column="0" Text="Room Number" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding RoomNumber}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="5" Grid.Column="0" Text="User Name" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding UserName}" TextColor="Navy" FontSize="Medium" />
+                    </Grid>
+                    <BoxView HeightRequest="2" Color="Navy" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20,0,20,0" />
+                    <Grid Padding="20" Margin="10,10,10,10" VerticalOptions="StartAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Ping" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CurrentSpeedModel.PingSpeed, Mode=TwoWay}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="0" TextColor="Black" Text="Download Speed" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding CurrentSpeedModel.DownloadSpeed, Mode=TwoWay}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="2" Grid.Column="0" TextColor="Black" Text="Upload Speed" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding CurrentSpeedModel.UploadSpeed,Mode=TwoWay}" TextColor="Navy" FontSize="Medium" />
+                    </Grid>
+                    <BoxView HeightRequest="2" Color="Navy" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20,0,20,0" />
+                    <Grid Padding="20" Margin="10,10,10,10" VerticalOptions="Start">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="My Longtitude" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding MyPosition.Longitude}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="My Latitude" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding MyPosition.Latitude}" TextColor="Navy" FontSize="Medium" />
+                    </Grid>
+                    <BoxView HeightRequest="2" Color="Navy" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20,0,20,0" />
+                    <Grid Padding="20" Margin="10,10,10,10" VerticalOptions="Start">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="IP" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding GeoIPBindingModel.IP}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="ISP" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding GeoIPBindingModel.Organization}" TextColor="Navy" FontSize="Medium" />
+                    </Grid>
+                    <BoxView HeightRequest="2" Color="Navy" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20,0,20,0" />
+                    <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Center" HeightRequest="50" BackgroundColor="Transparent" IsVisible="{Binding IsVisibleButtons}" MinimumHeightRequest="50" Margin="10">
+                        <Button Text="Save result" BackgroundColor="#211261" TextColor="White" WidthRequest="150" HeightRequest="40" Command="{Binding SaveButtonCommand}">
+                            <Button.BorderRadius>
+                                <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
+                            </Button.BorderRadius>
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsIndicatorVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <ActivityIndicator IsRunning="{Binding IsRunningIndicator}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="60" Color="Navy" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

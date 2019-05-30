@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:customBehaviors="using:SpeedTest.Behaviors;assembly=EventToCommandBehavior" 
+             x:Class="SpeedTest.Views.LoginView" 
+             BackgroundColor="#211261">
+    
+     <ContentPage.Content>
+        
+        <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="SpaceEvenly">
+
+            <Image Source="icon.png" HeightRequest="100" FlexLayout.AlignSelf="Center"/>
+            <Label Text="Speed Test" FontSize="24" TextColor="#008FBE" FlexLayout.AlignSelf="Center"/>
+
+
+            <ActivityIndicator FlexLayout.AlignSelf="Center" HeightRequest="50" IsRunning="{Binding IsRunningIndicator}" Color="Lime"/>
+
+            <Button x:Name="loginButton" Text="Login" BackgroundColor="#008FBE" TextColor="White" BorderColor="Yellow" BorderWidth="5" FontSize="Large" WidthRequest="200" HeightRequest="200" Command="{Binding LoginButtonTappedCommand}" IsVisible="{Binding IsLoginBtnEnabled,Mode=TwoWay}">
+                <Button.BorderRadius>
+                    <OnPlatform x:TypeArguments="x:Int32" iOS="100" Android="100" />
+                </Button.BorderRadius>
+            </Button>
+
+            <Label Text="Designed and developed by Cinnamon IT  |  All rights reserved  &#10;  Copyrights © 2018" 
+                   FontSize="10"
+                   LineBreakMode="CharacterWrap"
+                   HorizontalTextAlignment="Center"
+                   FlexLayout.AlignSelf="Stretch" 
+                   FlexLayout.Order = "2" 
+                   TextColor="#adadad"/>
+            
+        </FlexLayout>
+        
+    </ContentPage.Content>
+</ContentPage>
