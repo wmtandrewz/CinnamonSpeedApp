@@ -18,14 +18,16 @@
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding SSID}" TextColor="Navy" FontSize="Medium" />
                         <Label Grid.Row="1" Grid.Column="0" Text="Access Point" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
                         <Label Grid.Row="1" Grid.Column="1" Text="{Binding BSSID}" TextColor="Navy" FontSize="Medium" />
-                        <Label Grid.Row="2" Grid.Column="0" Text="Wi-Fi Strength" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Strength}" TextColor="Navy" FontSize="Medium" />
-                        <Label Grid.Row="3" Grid.Column="0" Text="Hotel" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding HotelName}" TextColor="Navy" FontSize="Medium" />
-                        <Label Grid.Row="4" Grid.Column="0" Text="Room Number" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding RoomNumber}" TextColor="Navy" FontSize="Medium" />
-                        <Label Grid.Row="5" Grid.Column="0" Text="User Name" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
-                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding UserName}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="2" Grid.Column="0" Text="Public IP Address" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding ClientIPAddress}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="3" Grid.Column="0" Text="Wi-Fi Strength" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Strength}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="4" Grid.Column="0" Text="Hotel" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding HotelName}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="5" Grid.Column="0" Text="Room Number" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding RoomNumber}" TextColor="Navy" FontSize="Medium" />
+                        <Label Grid.Row="6" Grid.Column="0" Text="User Name" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
+                        <Label Grid.Row="6" Grid.Column="1" Text="{Binding UserName}" TextColor="Navy" FontSize="Medium" />
                     </Grid>
                     <BoxView HeightRequest="2" Color="Navy" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20,0,20,0" />
                     <Grid Padding="20" Margin="10,10,10,10" VerticalOptions="StartAndExpand">
@@ -61,24 +63,7 @@
                         <Label Grid.Row="1" Grid.Column="1" Text="{Binding MyPosition.Latitude}" TextColor="Navy" FontSize="Medium" />
                     </Grid>
                     <BoxView HeightRequest="2" Color="Navy" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20,0,20,0" />
-                    <Grid Padding="20" Margin="10,10,10,10" VerticalOptions="Start">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Text="IP" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
-                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding GeoIPBindingModel.IP}" TextColor="Navy" FontSize="Medium" />
-                        <Label Grid.Row="1" Grid.Column="0" Text="ISP" TextColor="Black" FontAttributes="Bold" FontSize="Medium" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding GeoIPBindingModel.Organization}" TextColor="Navy" FontSize="Medium" />
-                    </Grid>
-                    <BoxView HeightRequest="2" Color="Navy" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="20,0,20,0" />
-                    <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Center" HeightRequest="50" BackgroundColor="Transparent" IsVisible="{Binding IsVisibleButtons}" MinimumHeightRequest="50" Margin="10">
-                        <Button Text="Save result" BackgroundColor="#211261" TextColor="White" WidthRequest="150" HeightRequest="40" Command="{Binding SaveButtonCommand}">
-                            <Button.BorderRadius>
-                                <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
-                            </Button.BorderRadius>
-                        </Button>
-                    </StackLayout>
+                    
                 </StackLayout>
                 <StackLayout IsVisible="{Binding IsIndicatorVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <ActivityIndicator IsRunning="{Binding IsRunningIndicator}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="60" Color="Navy" />

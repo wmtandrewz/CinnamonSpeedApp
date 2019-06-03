@@ -50,38 +50,7 @@ namespace SpeedTest.Models
         [JsonProperty("Upload")]
         public double Upload { get; set; }
 
-        [JsonProperty("ASN")]
-        public string Asn { get; set; }
 
-        [JsonProperty("City")]
-        public string City { get; set; }
-
-        [JsonProperty("Country")]
-        public string Country { get; set; }
-
-        [JsonProperty("CountryCode")]
-        public string CountryCode { get; set; }
-
-        [JsonProperty("ISP")]
-        public string Isp { get; set; }
-
-        [JsonProperty("Organization")]
-        public string Organization { get; set; }
-
-        [JsonProperty("Region")]
-        public string Region { get; set; }
-
-        [JsonProperty("RegionName")]
-        public string RegionName { get; set; }
-
-        [JsonProperty("Status")]
-        public string Status { get; set; }
-
-        [JsonProperty("TimeZone")]
-        public string TimeZone { get; set; }
-
-        [JsonProperty("ZipCode")]
-        public string ZipCode { get; set; }
     }
 }
 

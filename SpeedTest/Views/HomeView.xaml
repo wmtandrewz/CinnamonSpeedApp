@@ -3,7 +3,47 @@
     <ContentPage>
         <ContentPage.Content>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Label Text="Daily Test Target" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50"/>
+                <Label Text="Available Access Points" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        <ListView ItemsSource="{Binding ScanResults,Mode=TwoWay}" RowHeight="170" SeparatorColor="#660099" SeparatorVisibility="Default" IsPullToRefreshEnabled="true" CachingStrategy="RetainElement">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                                            <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Ssid}" Font="Bold" FontSize="Large" TextColor="Black" />
+                                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Bssid}" FontSize="Large" TextColor="Black" />
+                                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding Frequency}" FontSize="Large" TextColor="Black" />
+                                                <Label Grid.Row="3" Grid.Column="0" Text="{Binding Strength}" FontSize="Large" TextColor="Black" />
+                                                <Label Grid.Row="4" Grid.Column="0" Text="{Binding Distance}" FontSize="Large" TextColor="Black" />
+                                                <Label Grid.Row="5" Grid.Column="0" Text="{Binding Capabilities}" FontSize="Large" TextColor="Black" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollView>
+                </StackLayout>
+                <Button x:Name="resultButton" Text="Start Test Client" BackgroundColor="#211261" TextColor="White" WidthRequest="200" HeightRequest="40" Command="{Binding TestButtonCommand}" IsEnabled="{Binding IsEnabledButtons}" Margin="30">
+                    <Button.BorderRadius>
+                        <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
+                    </Button.BorderRadius>
+                </Button>
+            </StackLayout>
+        </ContentPage.Content>
+    </ContentPage>
+    <ContentPage>
+        <ContentPage.Content>
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Label Text="Daily Test Target" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
                 <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -14,20 +54,13 @@
                     <chart:ChartView Grid.Row="0" Grid.Column="0" Chart="{Binding DonutChart,Mode=TwoWay}" HeightRequest="400" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding TargetText,Mode=TwoWay}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="25" />
                 </Grid>
-                
-                <Button x:Name="resultButton" Text="Start Test Client" BackgroundColor="#211261" TextColor="White" WidthRequest="200" HeightRequest="40" Command="{Binding TestButtonCommand}" IsEnabled="{Binding IsEnabledButtons}" Margin="30">
-                    <Button.BorderRadius>
-                        <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
-                    </Button.BorderRadius>
-                </Button>
-                
             </StackLayout>
         </ContentPage.Content>
     </ContentPage>
     <ContentPage>
         <ContentPage.Content>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Label Text="Hotel Speed Test Count" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50"/>
+                <Label Text="Hotel Speed Test Count" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
                 <chart:ChartView Chart="{Binding BarChart,Mode=TwoWay}" HeightRequest="400" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
             </StackLayout>
         </ContentPage.Content>
@@ -35,15 +68,13 @@
     <ContentPage>
         <ContentPage.Content>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Label Text="Average Download Speed" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50"/>
+                <Label Text="Average Download Speed" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
                 <chart:ChartView Chart="{Binding LineChartDL,Mode=TwoWay}" HeightRequest="200" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-                
-                <Label Text="Average Upload Speed" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50"/>
+                <Label Text="Average Upload Speed" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
                 <chart:ChartView Chart="{Binding LineChartUL,Mode=TwoWay}" HeightRequest="200" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
             </StackLayout>
         </ContentPage.Content>
     </ContentPage>
-    
     <ContentPage>
         <ContentPage.Content>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -55,14 +86,12 @@
                 <Label Text="Download Speed Variance" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
                 <Label Text="Current Month" TextColor="Navy" FontSize="Default" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
                 <chart:ChartView Chart="{Binding LineChartDLSumMon,Mode=TwoWay}" HeightRequest="200" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-                
                 <Label Text="Upload Speed Variance" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-                <Label Text="Current Month" TextColor="Navy" FontSize="Default" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+                <Label Text="Current Month" TextColor="Navy" FontSize="Default" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
                 <chart:ChartView Chart="{Binding LineChartULSumMon,Mode=TwoWay}" HeightRequest="200" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
             </StackLayout>
         </ContentPage.Content>
     </ContentPage>
-    
     <ContentPage>
         <ContentPage.Content>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -78,7 +107,6 @@
                 </Editor>
                 <Label Text="Download Speed History" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
                 <chart:ChartView Chart="{Binding LineChartDLHistory,Mode=TwoWay}" HeightRequest="200" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-                
                 <Label Text="Upload Speed History" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
                 <chart:ChartView Chart="{Binding LineChartULHistory,Mode=TwoWay}" HeightRequest="200" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
             </StackLayout>

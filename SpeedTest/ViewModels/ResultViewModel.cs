@@ -18,6 +18,7 @@ using SpeedTest.Services;
 using SpeedTest.Views;
 using Xamarin.Forms;
 using SpeedTest.Helpers;
+using System.Linq;
 
 namespace SpeedTest.ViewModels
 {
@@ -35,6 +36,7 @@ namespace SpeedTest.ViewModels
         private SpeedModel _currentSpeedModel;
         private string _roomNumber = Constants.RoomNumber;
         private string _userName = Settings.UserName;
+        private string _clientIPAddress = string.Empty;
         private string _strength = String.Empty;
         private string _hotelName = Constants.HotelName;
         private bool _isResultVisible = false;
@@ -42,18 +44,6 @@ namespace SpeedTest.ViewModels
         private bool _isVisibleButtons = false;
         private bool _isRunningIndicator = true;
 
-        public GeoIPmodel GeoIPBindingModel
-        {
-            get
-            {
-                return _geoIPBindingModel;
-            }
-            set
-            {
-                _geoIPBindingModel = value;
-                OnPropertyChanged("GeoIPBindingModel");
-            }
-        }
 
         public SpeedModel CurrentSpeedModel
         {
@@ -157,6 +147,19 @@ namespace SpeedTest.ViewModels
             {
                 _userName = value;
                 OnPropertyChanged("UserName");
+            }
+        }
+
+        public string ClientIPAddress
+        {
+            get
+            {
+                return _clientIPAddress;
+            }
+            set
+            {
+                _clientIPAddress = value;
+                OnPropertyChanged("ClientIPAddress");
             }
         }
 
@@ -321,7 +324,7 @@ namespace SpeedTest.ViewModels
                 resultModel.Date = DateTime.Now;
                 resultModel.Time = DateTime.Now.ToLocalTime();
                 resultModel.Ssid = SSID;
-                resultModel.Ip = GeoIPBindingModel.IP;
+                resultModel.Ip = ClientIPAddress;
                 resultModel.Longtitude = MyPosition.Longitude.ToString();
                 resultModel.Latitude = MyPosition.Latitude.ToString();
                 resultModel.Username = UserName;
@@ -330,19 +333,7 @@ namespace SpeedTest.ViewModels
                 resultModel.Ping = ping;
                 resultModel.Download = down;
                 resultModel.Upload = up;
-                resultModel.Asn = GeoIPBindingModel.ASN;
-                resultModel.City = GeoIPBindingModel.City;
-                resultModel.Country = GeoIPBindingModel.Country;
-                resultModel.CountryCode = GeoIPBindingModel.CountryCode;
-                resultModel.Isp = GeoIPBindingModel.ISP;
-                resultModel.Organization = GeoIPBindingModel.Organization;
-                resultModel.Region = GeoIPBindingModel.Region;
-                resultModel.RegionName = GeoIPBindingModel.RegionName;
-                resultModel.Status = GeoIPBindingModel.Status;
-                resultModel.TimeZone = GeoIPBindingModel.TimeZone;
-                resultModel.ZipCode = GeoIPBindingModel.ZipCode;
-
-
+         
                 if (resultModel != null)
                 {
                     return await ApiPOSTservices.POSTResultData(resultModel);
@@ -370,13 +361,13 @@ namespace SpeedTest.ViewModels
             CurrentSpeedModel = Constants.CurrentSpeedModel;
             RoomNumber = Constants.RoomNumber;
 
-            var responce = await ApiGETservices.GetIPGeoLocationDetails();
+            var responce = await ApiGETservices.GetIP();
 
             if (!string.IsNullOrEmpty(responce))
             {
-                if (!responce.Contains("fail"))
+                if (!responce.Contains("Error"))
                 {
-                    GeoIPBindingModel = JsonConvert.DeserializeObject<GeoIPmodel>(responce);
+                    ClientIPAddress = JsonConvert.DeserializeObject<string>(responce);
                 }
             }
 
@@ -420,7 +411,7 @@ namespace SpeedTest.ViewModels
             return CrossGeolocator.IsSupported && CrossGeolocator.Current.IsGeolocationAvailable;
         }
 
-        private void GetWifiSSID()
+        private async void GetWifiSSID()
         {
 
             if (Device.RuntimePlatform == "Android")
@@ -434,6 +425,20 @@ namespace SpeedTest.ViewModels
 
                     Strength = RSSI >= (-67) ? RSSI.ToString() + " dBm (Excellent)" :
                                RSSI >= (-70) ? RSSI.ToString() + " dBm (Good)" : RSSI.ToString() + " dBm (Bad)";
+
+
+                     await Task.Run(async () => {
+
+                        for (long i = 0; i < long.MaxValue; i++)
+                        {
+                            
+                            await Task.Delay(1000);
+
+                            Device.BeginInvokeOnMainThread(() => {
+                                GetDistance();
+                            });
+                        }
+                    });
                 }
                 catch (Exception)
                 {
@@ -447,6 +452,33 @@ namespace SpeedTest.ViewModels
                 Strength = "Not Supported in iOS";
             }
 
+        }
+
+        private void GetDistance()
+        {
+            var RSSI = DependencyService.Get<IWiFiStat>().GetSignalStrength();
+            var Frequenzy = DependencyService.Get<IWiFiStat>().GetFrequenzy();
+            var ScanResult = DependencyService.Get<IWiFiStat>().GetAvailableSSIDList();
+            //var distance = Math.Pow(10d, ((double)-51 - RSSI) / (10 * 2));
+
+            double exp = (27.55 - (20 * Math.Log10(Frequenzy)) + Math.Abs(RSSI)) / 20.0;
+            var distance =  Math.Pow(10.0, exp);
+
+            var channels = Constants.WiFiChannels;
+            var channelNumber = 0;
+            for (int i = 0; i < channels.Length; i++)
+            {
+                if(channels[i] <= Frequenzy)
+                {
+                    channelNumber = i+1;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            Debug.WriteLine(Math.Round(distance, 2)+"m"+$" : Channel {channelNumber}");
         }
     }
 }

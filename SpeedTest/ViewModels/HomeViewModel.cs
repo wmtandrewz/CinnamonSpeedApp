@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Android.Net.Wifi;
 using Newtonsoft.Json;
 using SkiaSharp;
 using SpeedTest.Globals;
+using SpeedTest.Interfaces;
 using SpeedTest.Models;
 using SpeedTest.Services;
 using SpeedTest.Views;
@@ -24,6 +27,20 @@ namespace SpeedTest.ViewModels
         public ICommand HotelPickerSelectedChangedCommand { get; }
         public ICommand RoomTextCompletedCommand { get; }
         public ICommand TestButtonCommand { get; }
+
+        private ObservableCollection<APModel> _scanResults;
+        public ObservableCollection<APModel> ScanResults
+        {
+            get
+            {
+                return _scanResults;
+            }
+            set
+            {
+                _scanResults = value;
+                OnPropertyChanged("ScanResults");
+            }
+        }
 
         private Microcharts.Chart _donutChart;
         public Microcharts.Chart DonutChart
@@ -412,6 +429,21 @@ namespace SpeedTest.ViewModels
         {
             try
             {
+                await Task.Run(async () => {
+
+                    for (long i = 0; i < long.MaxValue; i++)
+                    {
+
+                        await Task.Delay(1000);
+
+                        Device.BeginInvokeOnMainThread(async() => {
+                            await LoadAPList();
+                        });
+                    }
+                });
+
+
+
                 DateTime now = DateTime.Now;
                 var startDate = new DateTime(now.Year, now.Month, 1);
                 var endDate = startDate.AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd");
@@ -523,6 +555,44 @@ namespace SpeedTest.ViewModels
             LineChartUL = new Microcharts.LineChart { Entries = LineChartEntriesUL, LabelTextSize = 24, LineMode = Microcharts.LineMode.Straight };
 
 
+        }
+
+        private async Task LoadAPList()
+        {
+
+            var scanList = DependencyService.Get<IWiFiStat>().GetAvailableSSIDList();
+
+            List<APModel> apModelList = new List<APModel>();
+
+            if(scanList!=null)
+            {
+                foreach (var item in scanList)
+                {
+                    var model = new APModel
+                    {
+                        Ssid = !string.IsNullOrEmpty(item.Ssid) ? item.Ssid : "(Hidden SSID)",
+                        Bssid = item.Bssid,
+                        Frequency = item.Frequency.ToString()+" MHz",
+                        Capabilities = item.Capabilities,
+                        Strength = item.Level.ToString()+" dBm",
+                        Distance = "~ "+Math.Round(GetDistance(item.Frequency,item.Level),2).ToString()+" m"
+                    };
+
+                    apModelList.Add(model);
+                }
+            }
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ScanResults = new ObservableCollection<APModel>(apModelList);
+            });
+
+        }
+
+        private double GetDistance(int freq,int rssi)
+        {
+            double exp = (27.55 - (20 * Math.Log10(freq)) + Math.Abs(rssi)) / 20.0;
+            return Math.Pow(10.0, exp);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

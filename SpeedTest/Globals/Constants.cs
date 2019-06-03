@@ -11,7 +11,7 @@ namespace SpeedTest.Globals
         public static string UserName { get; set; }
 
 
-
+        public static int[] WiFiChannels = {2412,2417,2422,2427,2432,2437,2442,2447,2452,2457,2462,2467,2472,2484};
         public static string[] HotelArray =
             {
                 "Cinnamon Grand",

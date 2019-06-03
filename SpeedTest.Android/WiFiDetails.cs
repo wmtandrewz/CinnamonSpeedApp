@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using Android.App;
 using Android.Content;
 using Android.Net.Wifi;
@@ -32,6 +35,20 @@ namespace SpeedTest.Droid
 
             return wifiManager != null ? wifiManager.ConnectionInfo.SSID : "NULL";
         }
+
+        public int GetFrequenzy()
+        {
+            WifiManager wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
+
+            return wifiManager != null ? wifiManager.ConnectionInfo.Frequency : 0;
+        }
+
+        public List<ScanResult> GetAvailableSSIDList()
+        {
+            WifiManager wifiManager = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
+
+            return wifiManager.ScanResults.ToList();
+        }
     }
 }
-    
+

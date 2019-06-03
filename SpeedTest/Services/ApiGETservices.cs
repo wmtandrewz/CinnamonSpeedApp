@@ -7,25 +7,25 @@ namespace SpeedTest.Services
 {
     public static class ApiGETservices
     {
-        public static async Task<string> GetIPGeoLocationDetails()
+        public static async Task<string> GetIP()
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://ip-api.com/json");
+                client.BaseAddress = new Uri("https://cinnamonspeedtestapi.azurewebsites.net/api/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync("http://ip-api.com/json");
+                    HttpResponseMessage response = await client.GetAsync($"TestResult/GetIP");
                     using (HttpContent content = response.Content)
                     {
                         string result = await content.ReadAsStringAsync();
                         return result;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return "Error GeoIP";
+                    return "Error" + ex.Message;
                 }
             }
         }
@@ -46,9 +46,9 @@ namespace SpeedTest.Services
                         return result;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return "Error Test Results";
+                    return "Error" + ex.Message;
                 }
             }
         }
@@ -69,9 +69,9 @@ namespace SpeedTest.Services
                         return result;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return "Error Test Results";
+                    return "Error" + ex.Message;
                 }
             }
         }
