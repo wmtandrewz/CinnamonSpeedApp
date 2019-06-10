@@ -6,24 +6,25 @@
                 <Label Text="Available Access Points" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
                 <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                        <ListView ItemsSource="{Binding ScanResults,Mode=TwoWay}" RowHeight="170" SeparatorColor="#660099" SeparatorVisibility="Default" IsPullToRefreshEnabled="true" CachingStrategy="RetainElement">
+                        <ListView ItemsSource="{Binding ScanResults,Mode=TwoWay}" RowHeight="100" HasUnevenRows="true" SeparatorColor="#660099" SeparatorVisibility="Default" IsPullToRefreshEnabled="true" CachingStrategy="RetainElement">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
+                                        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="10">
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="20" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2*" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Ssid}" Font="Bold" FontSize="Large" TextColor="Black" />
-                                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Bssid}" FontSize="Large" TextColor="Black" />
-                                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding Frequency}" FontSize="Large" TextColor="Black" />
-                                                <Label Grid.Row="3" Grid.Column="0" Text="{Binding Strength}" FontSize="Large" TextColor="Black" />
-                                                <Label Grid.Row="4" Grid.Column="0" Text="{Binding Distance}" FontSize="Large" TextColor="Black" />
-                                                <Label Grid.Row="5" Grid.Column="0" Text="{Binding Capabilities}" FontSize="Large" TextColor="Black" />
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Ssid}" Font="Bold" FontSize="Medium" TextColor="Black" />
+                                                <Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Strength}" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Black" />
+                                                <Label Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Distance}" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Black" />
+                                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Bssid}" FontSize="Small" TextColor="Black" />
+                                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding Frequency}" FontSize="Small" TextColor="Black" />
+                                                <Label Grid.Row="3" Grid.Column="0" Text="{Binding Capabilities}" FontSize="Small" TextColor="Black" />
                                             </Grid>
                                         </StackLayout>
                                     </ViewCell>

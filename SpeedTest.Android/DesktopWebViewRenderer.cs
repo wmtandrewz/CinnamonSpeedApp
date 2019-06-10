@@ -20,7 +20,7 @@ namespace SpeedTest.Droid
             base.OnElementChanged(e);
 
             //Control.Settings.UserAgentString = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
-            //Control.SetInitialScale(100);
+            //Control.SetInitialScale(200);
 
             Control.Settings.JavaScriptEnabled = true;
 

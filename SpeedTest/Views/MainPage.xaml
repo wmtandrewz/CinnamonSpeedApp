@@ -14,7 +14,7 @@
             </StackLayout>
             <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IndicatorVisible}" Color="Lime" HeightRequest="100" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
             <Label Text="Please wait... Initializing Test Client." IsVisible="{Binding IndicatorVisible}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Blue" />
-            <control:WebViewer x:Name="webView" VerticalOptions="Start" HorizontalOptions="FillAndExpand" WidthRequest="600" HeightRequest="500" MinimumHeightRequest="500" Source="https://cinnamonspeed.azurewebsites.net" IsVisible="false" RefreshCommand="{Binding PageRefreshCommand}">
+            <control:WebViewer x:Name="webView" VerticalOptions="Start" HorizontalOptions="FillAndExpand" HeightRequest="400" MinimumHeightRequest="500" Source="https://cinnamonspeed.azurewebsites.net" IsVisible="false" RefreshCommand="{Binding PageRefreshCommand}">
                 <control:WebViewer.Behaviors>
                     <customBehaviors:EventToCommandBehavior EventName="Navigating" Command="{Binding WebNavigatingCommand}" />
                     <customBehaviors:EventToCommandBehavior EventName="Navigated" Command="{Binding WebNavigatedCommand}" />

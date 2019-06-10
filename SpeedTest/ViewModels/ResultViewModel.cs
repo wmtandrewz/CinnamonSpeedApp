@@ -10,7 +10,6 @@ using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using Rg.Plugins.Popup.Extensions;
 using SpeedTest.Globals;
 using SpeedTest.Interfaces;
 using SpeedTest.Models;

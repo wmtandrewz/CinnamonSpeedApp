@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -27,6 +28,7 @@ namespace SpeedTest.ViewModels
         public ICommand HotelPickerSelectedChangedCommand { get; }
         public ICommand RoomTextCompletedCommand { get; }
         public ICommand TestButtonCommand { get; }
+        public ICommand UpdateResultsCommand { get; }
 
         private ObservableCollection<APModel> _scanResults;
         public ObservableCollection<APModel> ScanResults
@@ -238,14 +240,17 @@ namespace SpeedTest.ViewModels
 
         private INavigation Navigation { get; set; }
 
+
         public HomeViewModel(INavigation navigation)
         {
             this.Navigation = navigation;
 
+
             PageOnLoadCommand = new Command(async () => await PageOnLoad());
             HotelPickerSelectedChangedCommand = new Command(async () => await HotelPickerItemSelected());
             TestButtonCommand = new Command(async () => await TestButtonPressed());
-            RoomTextCompletedCommand = new Command(async ()=> await RoomTextCompleted());
+            UpdateResultsCommand = new Command(async () => await LoadAPList());
+            RoomTextCompletedCommand = new Command(async () => await RoomTextCompleted());
 
             //Donut Chart
             List<Microcharts.Entry> initialEntries = new List<Microcharts.Entry>
@@ -271,6 +276,7 @@ namespace SpeedTest.ViewModels
             _lineChartULHistory = new Microcharts.LineChart { Entries = new List<Microcharts.Entry>() };
         }
 
+
         private async Task RoomTextCompleted()
         {
             if (RoomSelectedHotel != null && !string.IsNullOrEmpty(RoomText))
@@ -281,7 +287,7 @@ namespace SpeedTest.ViewModels
                     var startDate = new DateTime(now.Year, now.Month, 1);
                     var endDate = startDate.AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd");
 
-                    var results = await ApiGETservices.GetRoomHistory(RoomSelectedHotel.HotelCode,Convert.ToInt32(RoomText));
+                    var results = await ApiGETservices.GetRoomHistory(RoomSelectedHotel.HotelCode, Convert.ToInt32(RoomText));
                     if (results != null)
                     {
                         var resultList = JsonConvert.DeserializeObject<List<ResultModel>>(results);
@@ -302,7 +308,7 @@ namespace SpeedTest.ViewModels
 
         private async Task HotelPickerItemSelected()
         {
-            if (SelectedHotel!=null)
+            if (SelectedHotel != null)
             {
                 try
                 {
@@ -325,9 +331,9 @@ namespace SpeedTest.ViewModels
             }
         }
 
-        private void DisplaySummeryCharts(List<ResultModel> results,HotelModel hotel)
+        private void DisplaySummeryCharts(List<ResultModel> results, HotelModel hotel)
         {
-            var avgDownloadSpeedMonth = results.Where(r=>r.HodelCode == hotel.HotelCode).GroupBy(w => CultureInfo.CurrentCulture.Calendar.GetDayOfMonth(w.Date)).OrderBy(r => r.Key).Select(s => Tuple.Create(s.Key, s.Average(r => r.Download)));
+            var avgDownloadSpeedMonth = results.Where(r => r.HodelCode == hotel.HotelCode).GroupBy(w => CultureInfo.CurrentCulture.Calendar.GetDayOfMonth(w.Date)).OrderBy(r => r.Key).Select(s => Tuple.Create(s.Key, s.Average(r => r.Download)));
             var avUploadSpeedMonth = results.Where(r => r.HodelCode == hotel.HotelCode).GroupBy(w => CultureInfo.CurrentCulture.Calendar.GetDayOfMonth(w.Date)).OrderBy(r => r.Key).Select(s => Tuple.Create(s.Key, s.Average(r => r.Upload)));
 
             //Line chart DL Month
@@ -429,20 +435,6 @@ namespace SpeedTest.ViewModels
         {
             try
             {
-                await Task.Run(async () => {
-
-                    for (long i = 0; i < long.MaxValue; i++)
-                    {
-
-                        await Task.Delay(1000);
-
-                        Device.BeginInvokeOnMainThread(async() => {
-                            await LoadAPList();
-                        });
-                    }
-                });
-
-
 
                 DateTime now = DateTime.Now;
                 var startDate = new DateTime(now.Year, now.Month, 1);
@@ -461,16 +453,16 @@ namespace SpeedTest.ViewModels
             }
         }
 
-        private void DisplayCharts(List<ResultModel> results )
+        private void DisplayCharts(List<ResultModel> results)
         {
 
             int completedCount = results.Count(r => r.Username == Helpers.Settings.UserName);
 
-            var hotelCounts = results.GroupBy(g => g.HodelCode).OrderBy(r=>r.Key).Select(r => Tuple.Create(r.Key,r.Count()));
+            var hotelCounts = results.GroupBy(g => g.HodelCode).OrderBy(r => r.Key).Select(r => Tuple.Create(r.Key, r.Count()));
 
             var avgDownloadSpeed = results.GroupBy(g => g.HodelCode).OrderBy(r => r.Key).Select(s => Tuple.Create(s.Key, s.Average(r => r.Download)));
 
-            var avgUploadSpeed = results.GroupBy(g => g.HodelCode).OrderBy(r => r.Key).Select(s => Tuple.Create(s.Key,s.Average(r => r.Upload)));
+            var avgUploadSpeed = results.GroupBy(g => g.HodelCode).OrderBy(r => r.Key).Select(s => Tuple.Create(s.Key, s.Average(r => r.Upload)));
 
             //Gauge Chart 
             List<Microcharts.Entry> checkinEntries = new List<Microcharts.Entry>
@@ -486,7 +478,7 @@ namespace SpeedTest.ViewModels
                 }
             };
 
-            DonutChart = new Microcharts.RadialGaugeChart { Entries = checkinEntries};
+            DonutChart = new Microcharts.RadialGaugeChart { Entries = checkinEntries };
 
             TargetText = $"{completedCount} of 20";
 
@@ -510,7 +502,7 @@ namespace SpeedTest.ViewModels
                 i++;
             }
 
-            BarChart = new Microcharts.BarChart { Entries = barChartEntries,LabelTextSize = 24 };
+            BarChart = new Microcharts.BarChart { Entries = barChartEntries, LabelTextSize = 24 };
 
             //Line Chart DL
             List<Microcharts.Entry> LineChartEntriesDL = new List<Microcharts.Entry>();
@@ -531,7 +523,7 @@ namespace SpeedTest.ViewModels
                 j++;
             }
 
-            LineChartDL = new Microcharts.LineChart { Entries = LineChartEntriesDL ,LabelTextSize = 24,LineMode = Microcharts.LineMode.Straight};
+            LineChartDL = new Microcharts.LineChart { Entries = LineChartEntriesDL, LabelTextSize = 24, LineMode = Microcharts.LineMode.Straight };
 
             //Line Chart UL
             List<Microcharts.Entry> LineChartEntriesUL = new List<Microcharts.Entry>();
@@ -559,12 +551,12 @@ namespace SpeedTest.ViewModels
 
         private async Task LoadAPList()
         {
-
+        
             var scanList = DependencyService.Get<IWiFiStat>().GetAvailableSSIDList();
 
             List<APModel> apModelList = new List<APModel>();
 
-            if(scanList!=null)
+            if (scanList != null)
             {
                 foreach (var item in scanList)
                 {
@@ -572,10 +564,10 @@ namespace SpeedTest.ViewModels
                     {
                         Ssid = !string.IsNullOrEmpty(item.Ssid) ? item.Ssid : "(Hidden SSID)",
                         Bssid = item.Bssid,
-                        Frequency = item.Frequency.ToString()+" MHz",
-                        Capabilities = item.Capabilities,
-                        Strength = item.Level.ToString()+" dBm",
-                        Distance = "~ "+Math.Round(GetDistance(item.Frequency,item.Level),2).ToString()+" m"
+                        Frequency = item.Frequency.ToString() + " MHz",
+                        Capabilities = item.Capabilities?.Split(']')[0]+"]",
+                        Strength = item.Level.ToString() + " dBm",
+                        Distance = "~ " + Math.Round(GetDistance(item.Frequency, item.Level), 2).ToString() + " m"
                     };
 
                     apModelList.Add(model);
@@ -585,11 +577,22 @@ namespace SpeedTest.ViewModels
             Device.BeginInvokeOnMainThread(() =>
             {
                 ScanResults = new ObservableCollection<APModel>(apModelList);
+                foreach (var item in ScanResults)
+                {
+                    if (item.Ssid.Contains("JKH"))
+                    {
+                        Debug.WriteLine(item.Ssid + ":" + item.Distance);
+                    }
+                }
             });
+
+            GC.Collect();
 
         }
 
-        private double GetDistance(int freq,int rssi)
+
+
+        private double GetDistance(int freq, int rssi)
         {
             double exp = (27.55 - (20 * Math.Log10(freq)) + Math.Abs(rssi)) / 20.0;
             return Math.Pow(10.0, exp);

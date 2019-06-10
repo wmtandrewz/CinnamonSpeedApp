@@ -13,10 +13,20 @@ namespace SpeedTest.iOS
         {
         }
 
+        public System.Collections.Generic.List<global::Android.Net.Wifi.ScanResult> GetAvailableSSIDList()
+        {
+            throw new NotImplementedException();
+        }
+
         public string GetBSSID()
         {
             var status = CaptiveNetwork.TryCopyCurrentNetworkInfo("en0", out NSDictionary dict);
             return status == StatusCode.NoKey ? "NULL" : dict[CaptiveNetwork.NetworkInfoKeyBSSID].ToString();
+        }
+
+        public int GetFrequenzy()
+        {
+            throw new NotImplementedException();
         }
 
         public int GetSignalStrength()

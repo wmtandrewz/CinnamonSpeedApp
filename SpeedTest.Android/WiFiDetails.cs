@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Net.Wifi;
@@ -46,7 +47,8 @@ namespace SpeedTest.Droid
         public List<ScanResult> GetAvailableSSIDList()
         {
             WifiManager wifiManager = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
-
+            wifiManager.StartScan();
+            Task.Delay(2000);
             return wifiManager.ScanResults.ToList();
         }
     }

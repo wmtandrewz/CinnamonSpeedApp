@@ -1,4 +1,5 @@
-﻿using SpeedTest.ViewModels;
+﻿using System;
+using SpeedTest.ViewModels;
 using Xamarin.Forms;
 
 namespace SpeedTest.Views
@@ -16,6 +17,11 @@ namespace SpeedTest.Views
             homeViewModel = new HomeViewModel(Navigation);
             BindingContext = homeViewModel;
 
+            Device.StartTimer(TimeSpan.FromSeconds(2), () => 
+            {
+                homeViewModel.UpdateResultsCommand.Execute(null);
+                return true;
+            });
         }
 
         protected override void OnAppearing()
@@ -23,5 +29,6 @@ namespace SpeedTest.Views
             base.OnAppearing();
             homeViewModel.PageOnLoadCommand.Execute(null);
         }
+
     }
 }
