@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <CarouselPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:chart="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" x:Class="SpeedTest.Views.HomeView" xmlns:customBehaviors="using:SpeedTest.Behaviors;assembly=EventToCommandBehavior">
     <ContentPage>
+        <ContentPage.ToolbarItems>
+            <ToolbarItem Text="Refresh" Priority="0" Command="{Binding UpdateResultsCommand}" />
+        </ContentPage.ToolbarItems>
         <ContentPage.Content>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Label Text="Available Access Points" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
                 <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                        <ListView ItemsSource="{Binding ScanResults,Mode=TwoWay}" RowHeight="100" HasUnevenRows="true" SeparatorColor="#660099" SeparatorVisibility="Default" IsPullToRefreshEnabled="true" CachingStrategy="RetainElement">
+                        <ListView ItemsSource="{Binding ScanResults,Mode=TwoWay}" RowHeight="100" HasUnevenRows="true" SeparatorColor="#660099" SeparatorVisibility="Default" IsPullToRefreshEnabled="false" CachingStrategy="RetainElement">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>

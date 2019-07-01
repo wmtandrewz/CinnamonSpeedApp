@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Content;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Android.Net.Wifi;
 
 namespace SpeedTest.Droid
 {
@@ -21,12 +22,14 @@ namespace SpeedTest.Droid
             base.OnCreate(savedInstanceState);
 
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
-            Rg.Plugins.Popup.Popup.Init(this,savedInstanceState);
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             //AnimationViewRenderer.Init();
 
             GetActivity = this;
+
+            RegisterReceiver(new WiFiMonitor(), new IntentFilter(WifiManager.ScanResultsAvailableAction));
+            ((WifiManager)GetSystemService(WifiService)).StartScan();
 
             LoadApplication(new App());
 

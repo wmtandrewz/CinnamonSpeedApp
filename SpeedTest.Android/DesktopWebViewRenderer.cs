@@ -19,6 +19,21 @@ namespace SpeedTest.Droid
         {
             base.OnElementChanged(e);
 
+            //var metrics = Resources.DisplayMetrics;
+
+            //var height = metrics.HeightPixels;
+            var dpi = Context.Resources.DisplayMetrics.Xdpi;
+            //var width = metrics.WidthPixels;
+
+            //double density = (double)height / (double)width;
+            //var rounded = Math.Round(density, 2);
+
+            if (dpi < 300)
+            {
+                Control.SetInitialScale(200);
+            }
+            
+
             //Control.Settings.UserAgentString = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
             //Control.SetInitialScale(200);
 

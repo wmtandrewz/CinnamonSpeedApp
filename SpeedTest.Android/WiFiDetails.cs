@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,22 +9,23 @@ using Android.Content;
 using Android.Net.Wifi;
 using SpeedTest.Droid;
 using SpeedTest.Interfaces;
+using Xamarin.Forms;
+using Application = Android.App.Application;
 
 [assembly: Xamarin.Forms.Dependency(typeof(WiFiDetails))]
 namespace SpeedTest.Droid
 {
     public class WiFiDetails : IWiFiStat
     {
+        WifiManager wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
+
         public string GetBSSID()
         {
-            WifiManager wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
-
             return wifiManager != null ? wifiManager.ConnectionInfo.BSSID : "NULL";
         }
 
         public int GetSignalStrength()
         {
-            WifiManager wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
             var RSSI = wifiManager.ConnectionInfo.Rssi;
             return wifiManager != null ? RSSI : 0 ;
             //return wifiManager != null ? WifiManager.CalculateSignalLevel(RSSI, 5).ToString() : "NULL";
@@ -32,25 +34,30 @@ namespace SpeedTest.Droid
 
         public string GetSSIDname()
         {
-            WifiManager wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
-
             return wifiManager != null ? wifiManager.ConnectionInfo.SSID : "NULL";
         }
 
         public int GetFrequenzy()
         {
-            WifiManager wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
-
             return wifiManager != null ? wifiManager.ConnectionInfo.Frequency : 0;
         }
 
         public List<ScanResult> GetAvailableSSIDList()
         {
-            WifiManager wifiManager = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
+
+            wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
             wifiManager.StartScan();
-            Task.Delay(2000);
+            var Distance = "~ " + Math.Round(GetDistance(GetFrequenzy(), GetSignalStrength()), 2).ToString() + " m";
+            Debug.WriteLine(GetFrequenzy()+ " < : > " + GetSignalStrength() + "< : >" + Distance);
             return wifiManager.ScanResults.ToList();
         }
+
+        private double GetDistance(int freq, int rssi)
+        {
+            double exp = (27.55 - (20 * Math.Log10(freq)) + Math.Abs(rssi)) / 20.0;
+            return Math.Pow(10.0, exp);
+        }
+
     }
 }
 

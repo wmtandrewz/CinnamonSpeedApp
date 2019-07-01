@@ -1,5 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SpeedTest.Views.ResultView" Title="Test Results" BackgroundColor="White">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="SpeedTest.Views.ResultView" 
+             Title="Test Results" 
+             BackgroundColor="White">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
@@ -68,6 +72,13 @@
                 <StackLayout IsVisible="{Binding IsIndicatorVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <ActivityIndicator IsRunning="{Binding IsRunningIndicator}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="60" Color="Navy" />
                 </StackLayout>
+                <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Center" HeightRequest="50" BackgroundColor="Transparent" IsVisible="{Binding IsResultVisible}" MinimumHeightRequest="50" Margin="10">
+                <Button Text="Save Result" BackgroundColor="#211261" TextColor="White" WidthRequest="150" HeightRequest="40" Command="{Binding SaveButtonCommand}">
+                    <Button.BorderRadius>
+                        <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
+                    </Button.BorderRadius>
+                </Button>
+            </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SpeedTest.Views.RoomNumberView">
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -9,7 +9,7 @@
                 <Switch x:Name="publicAreaSwitch" WidthRequest="100"/>
             </StackLayout>
             
-            <Entry x:Name="roomNumberText" Text="{Binding RoomNumber}" Placeholder="Ex : 001" WidthRequest="200" HeightRequest="75" Keyboard="Numeric" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" FontSize="40" Margin="10"/>
+            <Entry x:Name="roomNumberText" Text="{Binding RoomNumber}" Placeholder="Ex : 001" WidthRequest="200" HeightRequest="60" Keyboard="Numeric" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" FontSize="40" Margin="10"/>
             <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Center" HeightRequest="50" BackgroundColor="Transparent" MinimumHeightRequest="50" Margin="10">
                 <Button Text="Continue" BackgroundColor="#211261" TextColor="White" WidthRequest="150" HeightRequest="40" Command="{Binding ContinueButtonCommand}">
                     <Button.BorderRadius>

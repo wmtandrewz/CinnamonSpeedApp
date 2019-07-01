@@ -218,6 +218,7 @@ namespace SpeedTest.ViewModels
         }
 
 
+
         public ResultViewModel(INavigation navigation)
         {
             this.Navigation = navigation;

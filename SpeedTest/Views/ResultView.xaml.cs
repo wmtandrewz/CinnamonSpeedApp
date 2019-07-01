@@ -20,7 +20,6 @@ namespace SpeedTest.Views
             }
 
             var viewModel = BindingContext as ResultViewModel;
-            //viewModel.RequestRoomNumberCommand.Execute(null);
 
             base.OnAppearing();
         }

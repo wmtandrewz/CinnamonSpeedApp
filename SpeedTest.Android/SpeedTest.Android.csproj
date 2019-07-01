@@ -83,9 +83,6 @@
     <PackageReference Include="Microcharts">
       <Version>0.7.1</Version>
     </PackageReference>
-    <PackageReference Include="Rg.Plugins.Popup">
-      <Version>1.1.5.188</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -97,6 +94,7 @@
     <Compile Include="LoginDependancy.cs" />
     <Compile Include="LogoutDependancy.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="WiFiMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -577,16 +577,7 @@ namespace SpeedTest.ViewModels
             Device.BeginInvokeOnMainThread(() =>
             {
                 ScanResults = new ObservableCollection<APModel>(apModelList);
-                foreach (var item in ScanResults)
-                {
-                    if (item.Ssid.Contains("JKH"))
-                    {
-                        Debug.WriteLine(item.Ssid + ":" + item.Distance);
-                    }
-                }
             });
-
-            GC.Collect();
 
         }
 

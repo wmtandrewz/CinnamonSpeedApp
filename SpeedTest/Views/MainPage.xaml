@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:SpeedTest.Views" x:Class="SpeedTest.Views.MainPage" xmlns:customBehaviors="using:SpeedTest.Behaviors;assembly=EventToCommandBehavior" xmlns:control="clr-namespace:SpeedTest.CustomRenders" xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" BackgroundColor="White">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Logout" Priority="0" Command="{Binding LogoutClickedCommand}"/>
