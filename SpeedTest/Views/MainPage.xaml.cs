@@ -11,6 +11,7 @@ namespace SpeedTest.Views
 {
     public partial class MainPage : ContentPage
     {
+        MainViewModel bindingViewModel;
         public MainPage()
         {
             InitializeComponent();
@@ -22,7 +23,8 @@ namespace SpeedTest.Views
         {
             if (BindingContext == null)
             {
-                BindingContext = new MainViewModel(webView, Navigation);
+                bindingViewModel = new MainViewModel(webView, Navigation);
+                BindingContext = bindingViewModel;
             }
 
             if(!resultButton.IsEnabled)
@@ -31,6 +33,8 @@ namespace SpeedTest.Views
             }
 
             base.OnAppearing();
+
+            bindingViewModel.PageOnAppearingCommand.Execute(null);
 
         }
 

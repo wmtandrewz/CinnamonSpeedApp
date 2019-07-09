@@ -17,18 +17,12 @@ namespace SpeedTest.Views
             homeViewModel = new HomeViewModel(Navigation);
             BindingContext = homeViewModel;
 
-            //Device.StartTimer(TimeSpan.FromSeconds(5), () => 
-            //{
-            //    homeViewModel.UpdateResultsCommand.Execute(null);
-            //    return true;
-            //});
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             homeViewModel.PageOnLoadCommand.Execute(null);
-            homeViewModel.UpdateResultsCommand.Execute(null);
         }
 
     }

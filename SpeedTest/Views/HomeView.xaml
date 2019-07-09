@@ -1,50 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <CarouselPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:chart="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" x:Class="SpeedTest.Views.HomeView" xmlns:customBehaviors="using:SpeedTest.Behaviors;assembly=EventToCommandBehavior">
     <ContentPage>
-        <ContentPage.ToolbarItems>
-            <ToolbarItem Text="Refresh" Priority="0" Command="{Binding UpdateResultsCommand}" />
-        </ContentPage.ToolbarItems>
-        <ContentPage.Content>
-            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Label Text="Available Access Points" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
-                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                        <ListView ItemsSource="{Binding ScanResults,Mode=TwoWay}" RowHeight="100" HasUnevenRows="true" SeparatorColor="#660099" SeparatorVisibility="Default" IsPullToRefreshEnabled="false" CachingStrategy="RetainElement">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="10">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="20" />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="2*" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Ssid}" Font="Bold" FontSize="Medium" TextColor="Black" />
-                                                <Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Strength}" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Black" />
-                                                <Label Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Distance}" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Black" />
-                                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Bssid}" FontSize="Small" TextColor="Black" />
-                                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding Frequency}" FontSize="Small" TextColor="Black" />
-                                                <Label Grid.Row="3" Grid.Column="0" Text="{Binding Capabilities}" FontSize="Small" TextColor="Black" />
-                                            </Grid>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </ScrollView>
-                </StackLayout>
-                <Button x:Name="resultButton" Text="Start Test Client" BackgroundColor="#211261" TextColor="White" WidthRequest="200" HeightRequest="40" Command="{Binding TestButtonCommand}" IsEnabled="{Binding IsEnabledButtons}" Margin="30">
-                    <Button.BorderRadius>
-                        <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
-                    </Button.BorderRadius>
-                </Button>
-            </StackLayout>
-        </ContentPage.Content>
-    </ContentPage>
-    <ContentPage>
         <ContentPage.Content>
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Label Text="Daily Test Target" TextColor="Navy" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" />
@@ -58,6 +14,11 @@
                     <chart:ChartView Grid.Row="0" Grid.Column="0" Chart="{Binding DonutChart,Mode=TwoWay}" HeightRequest="400" WidthRequest="400" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding TargetText,Mode=TwoWay}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="25" />
                 </Grid>
+                <Button x:Name="resultButton" Text="Start Test Client" BackgroundColor="#211261" TextColor="White" WidthRequest="200" HeightRequest="40" Command="{Binding TestButtonCommand}" IsEnabled="{Binding IsEnabledButtons}" Margin="30">
+                    <Button.BorderRadius>
+                        <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
+                    </Button.BorderRadius>
+                </Button>
             </StackLayout>
         </ContentPage.Content>
     </ContentPage>

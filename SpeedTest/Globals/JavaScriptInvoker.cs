@@ -48,9 +48,19 @@ namespace SpeedTest.Globals
             return $"document.getElementById(\"{id}\").style.{styleProperty};";
         }
 
+        public static string GetClassById(string id)
+        {
+            return $"document.getElementById(\"{id}\").className;";
+        }
+
         public static string ExecuteClickEvent(string classname)
         {
             return $"document.getElementsByClassName(\"{classname}\")[0].click();";
+        }
+
+        public static string ExecuteClickEventById(string id)
+        {
+            return $"document.getElementById(\"{id}\").click();";
         }
     }
 }

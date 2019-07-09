@@ -322,7 +322,7 @@ namespace SpeedTest.ViewModels
                 resultModel.HodelCode = Constants.HotelCode;
                 resultModel.RoomNumber = RoomNumber;
                 resultModel.Date = DateTime.Now;
-                resultModel.Time = DateTime.Now.ToLocalTime();
+                resultModel.Time = DateTime.Now.TimeOfDay;
                 resultModel.Ssid = SSID;
                 resultModel.Ip = ClientIPAddress;
                 resultModel.Longtitude = MyPosition.Longitude.ToString();

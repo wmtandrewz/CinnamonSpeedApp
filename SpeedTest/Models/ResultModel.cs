@@ -18,7 +18,7 @@ namespace SpeedTest.Models
         public DateTime Date { get; set; }
 
         [JsonProperty("Time")]
-        public DateTime Time { get; set; }
+        public TimeSpan Time { get; set; }
 
         [JsonProperty("SSID")]
         public string Ssid { get; set; }

@@ -28,7 +28,6 @@ namespace SpeedTest.ViewModels
         public ICommand HotelPickerSelectedChangedCommand { get; }
         public ICommand RoomTextCompletedCommand { get; }
         public ICommand TestButtonCommand { get; }
-        public ICommand UpdateResultsCommand { get; }
 
         private ObservableCollection<APModel> _scanResults;
         public ObservableCollection<APModel> ScanResults
@@ -249,7 +248,6 @@ namespace SpeedTest.ViewModels
             PageOnLoadCommand = new Command(async () => await PageOnLoad());
             HotelPickerSelectedChangedCommand = new Command(async () => await HotelPickerItemSelected());
             TestButtonCommand = new Command(async () => await TestButtonPressed());
-            UpdateResultsCommand = new Command(async () => await LoadAPList());
             RoomTextCompletedCommand = new Command(async () => await RoomTextCompleted());
 
             //Donut Chart
@@ -549,45 +547,6 @@ namespace SpeedTest.ViewModels
 
         }
 
-        private async Task LoadAPList()
-        {
-        
-            var scanList = DependencyService.Get<IWiFiStat>().GetAvailableSSIDList();
-
-            List<APModel> apModelList = new List<APModel>();
-
-            if (scanList != null)
-            {
-                foreach (var item in scanList)
-                {
-                    var model = new APModel
-                    {
-                        Ssid = !string.IsNullOrEmpty(item.Ssid) ? item.Ssid : "(Hidden SSID)",
-                        Bssid = item.Bssid,
-                        Frequency = item.Frequency.ToString() + " MHz",
-                        Capabilities = item.Capabilities?.Split(']')[0]+"]",
-                        Strength = item.Level.ToString() + " dBm",
-                        Distance = "~ " + Math.Round(GetDistance(item.Frequency, item.Level), 2).ToString() + " m"
-                    };
-
-                    apModelList.Add(model);
-                }
-            }
-
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ScanResults = new ObservableCollection<APModel>(apModelList);
-            });
-
-        }
-
-
-
-        private double GetDistance(int freq, int rssi)
-        {
-            double exp = (27.55 - (20 * Math.Log10(freq)) + Math.Abs(rssi)) / 20.0;
-            return Math.Pow(10.0, exp);
-        }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

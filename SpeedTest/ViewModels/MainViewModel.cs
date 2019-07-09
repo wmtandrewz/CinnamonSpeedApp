@@ -36,9 +36,11 @@ namespace SpeedTest.ViewModels
         public ICommand WebNavigatedCommand { get; }
         public ICommand ChangeHotelCommand { get; }
         public ICommand ResultButtonCommand { get; }
-        public ICommand PageRefreshCommand { get; }
         public ICommand RefreshButtonCommand { get; }
         public ICommand LogoutClickedCommand { get; }
+        public ICommand APClickedCommand { get; }
+        public ICommand StartButtonCommand { get; }
+        public ICommand PageOnAppearingCommand { get; }
 
 
         private WebViewer SpeedTestClientView { get; set; }
@@ -48,6 +50,10 @@ namespace SpeedTest.ViewModels
         private bool _isEnabledButtons = true;
         private bool _isAnimationVisible;
         private bool _isRefreshVisible = false;
+        private string _startButtonText = "Start";
+        private string _startButtonColor = "#086100";
+        private bool _isVisibleStart = false;
+        private bool RepeatTimer = true;
 
         public string HotelName
         {
@@ -167,6 +173,21 @@ namespace SpeedTest.ViewModels
             }
         }
 
+        public bool IsVisibleStart
+        {
+            get
+            {
+                return _isVisibleStart;
+            }
+
+            set
+            {
+                _isVisibleStart = value;
+
+                OnPropertyChanged("IsVisibleStart");
+            }
+        }
+
         public bool IsEnabledButtons
         {
             get
@@ -209,7 +230,33 @@ namespace SpeedTest.ViewModels
             }
         }
 
+        public string StartButtonText
+        {
+            get
+            {
+                return _startButtonText;
+            }
 
+            set
+            {
+                _startButtonText = value;
+                OnPropertyChanged("StartButtonText");
+            }
+        }
+
+        public string StartButtonColor
+        {
+            get
+            {
+                return _startButtonColor;
+            }
+
+            set
+            {
+                _startButtonColor = value;
+                OnPropertyChanged("StartButtonColor");
+            }
+        }
 
         public MainViewModel(WebViewer TestClient, INavigation navigation)
         {
@@ -222,15 +269,72 @@ namespace SpeedTest.ViewModels
             WebNavigatedCommand = new Command(WebPageNavigated);
             ChangeHotelCommand = new Command(HotelNameButtonClicked);
             ResultButtonCommand = new Command(ShowResultsClicked);
-            PageRefreshCommand = new Command(RefreshedWebView);
             RefreshButtonCommand = new Command(RefreshWebView);
             LogoutClickedCommand = new Command(LogoutUser);
+            APClickedCommand = new Command(NavigateToApList);
+            StartButtonCommand = new Command(startTest);
+            PageOnAppearingCommand = new Command(OnPageApearing);
 
             PingSpeed = "0 ms";
             DownloadSpeed = "0 Mbps";
             UploadSpeed = "0 Mbps";
 
+
             RequestLocationAccess();
+        }
+
+        private async void NavigateToApList()
+        {
+            await Navigation.PushAsync(new APListView());
+        }
+
+        private void OnPageApearing()
+        {
+            IsVisibleButtons = false;
+        }
+
+        private async void startTest()
+        {
+
+            await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.ExecuteClickEventById("startStopBtn"));
+
+            if(StartButtonColor == "#086100" && StartButtonText == "Start")
+            {
+                StartButtonText = "Abort";
+                StartButtonColor = "#70000d";
+                RepeatTimer = true;
+                RunTimer();
+            }
+            else
+            {
+                StartButtonText = "Start";
+                StartButtonColor = "#086100";
+                RepeatTimer = false;
+            }
+        }
+
+        private async void CheckForFinish()
+        {
+            var className = await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.GetClassById("startStopBtn"));
+            var ulValue = await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.GetElementDataByID("ulText"));
+
+            if(string.IsNullOrEmpty(className) && string.IsNullOrEmpty(ulValue))
+            {
+                IsVisibleButtons = false;
+            }
+            else if(className == "running")
+            {
+                IsVisibleButtons = false;
+            }
+            else
+            {
+                IsVisibleButtons = true;
+                RepeatTimer = false;
+                StartButtonText = "Start";
+                StartButtonColor = "#086100";
+            }
+
+            Debug.WriteLine(className);
         }
 
         private async void LogoutUser()
@@ -247,12 +351,10 @@ namespace SpeedTest.ViewModels
             IsLoading = true;
             IndicatorVisible = true;
             SpeedTestClientView.IsVisible = false;
+            IsVisibleStart = false;
         }
 
-        private void RefreshedWebView()
-        {
-           
-        }
+        
 
         private async void ShowResultsClicked()
         {
@@ -325,24 +427,11 @@ namespace SpeedTest.ViewModels
 
         private async void WebPageNavigated()
         {
-            // await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.SetStyles("speedtest_view", "background", "#000"));
-
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.HideElementByClassName("logo-container"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.HideElementByClassName("footer-container"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.HideElementByClassName("powered-by-container"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.HideElementByClassName("speed-progress-indicator-container"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.SetStylesByID("measure-latency-during-upload", "width", "2.25vh"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.SetStylesByID("measure-latency-during-upload", "height", "2.25vh"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.SetStylesByID("always-show-metrics-input", "width", "2.25vh"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.SetStylesByID("always-show-metrics-input", "height", "2.25vh"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.SetStylesByID("persist-config-input", "width", "2.25vh"));
-            //await SpeedTestClientView.EvaluateJavaScriptAsync(JavaScriptInvoker.SetStylesByID("persist-config-input", "height", "2.25vh"));
-
+            
             IsLoading = false;
             IndicatorVisible = false;
             SpeedTestClientView.IsVisible = true;
-
-
+            IsVisibleStart = true;
         }
 
         private void WebPageNavigating()
@@ -354,6 +443,15 @@ namespace SpeedTest.ViewModels
         {
             var res = await PermissionsHandler.CheckPermissions(Permission.Location);
             Debug.WriteLine("Location Permission : " + res);
+        }
+
+        private void RunTimer()
+        {
+            Device.StartTimer(TimeSpan.FromMilliseconds(500), () =>
+            {
+                CheckForFinish();
+                return RepeatTimer; // True = Repeat again, False = Stop the timer
+            });
         }
 
     }
