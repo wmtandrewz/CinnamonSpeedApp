@@ -454,7 +454,7 @@ namespace SpeedTest.ViewModels
         private void DisplayCharts(List<ResultModel> results)
         {
 
-            int completedCount = results.Count(r => r.Username == Helpers.Settings.UserName);
+            int completedCount = results.Count(r => r.Username.ToLower() == Helpers.Settings.UserName.ToLower() && r.Date == DateTime.Now.Date);
 
             var hotelCounts = results.GroupBy(g => g.HodelCode).OrderBy(r => r.Key).Select(r => Tuple.Create(r.Key, r.Count()));
 

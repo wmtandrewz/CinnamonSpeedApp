@@ -46,7 +46,7 @@ namespace SpeedTest.ViewModels
         private WebViewer SpeedTestClientView { get; set; }
 
         private INavigation Navigation;
-        private string _hotelName = Constants.HotelName;
+        private string _hotelName = string.IsNullOrEmpty(Settings.DefaultHotel) ? Constants.HotelName : Settings.DefaultHotel;
         private bool _isEnabledButtons = true;
         private bool _isAnimationVisible;
         private bool _isRefreshVisible = false;
@@ -66,6 +66,7 @@ namespace SpeedTest.ViewModels
             {
                 _hotelName = value;
                 Constants.HotelName = value;
+                Settings.DefaultHotel = value;
                 OnPropertyChanged("HotelName");
             }
         }

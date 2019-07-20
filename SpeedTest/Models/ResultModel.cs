@@ -50,6 +50,12 @@ namespace SpeedTest.Models
         [JsonProperty("Upload")]
         public double Upload { get; set; }
 
+        [JsonProperty("Distance")]
+        public double Distance { get; set; }
+
+        [JsonProperty("Channel")]
+        public double Channel { get; set; }
+
 
     }
 }

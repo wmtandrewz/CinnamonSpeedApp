@@ -46,7 +46,7 @@ namespace SpeedTest.Services
 
             return new UserModel
             {
-                Username = authResult?.UserInfo.GivenName,
+                Username = authResult?.UserInfo.DisplayableId.Split('@')[0],
                 Password = "nopassword"
             };
         }

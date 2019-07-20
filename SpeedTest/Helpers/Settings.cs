@@ -31,5 +31,17 @@ namespace SpeedTest.Helpers
             }
         }
 
+        public static string DefaultHotel
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault("DefaultHotel", string.Empty);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue("DefaultHotel", value);
+            }
+        }
+
     }
 }

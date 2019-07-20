@@ -37,6 +37,8 @@ namespace SpeedTest.ViewModels
         private string _userName = Settings.UserName;
         private string _clientIPAddress = string.Empty;
         private string _strength = String.Empty;
+        public double _distance;
+        public double _channel;
         private string _hotelName = Constants.HotelName;
         private bool _isResultVisible = false;
         private bool _isIndicatorVisible = true;
@@ -120,6 +122,32 @@ namespace SpeedTest.ViewModels
             {
                 _strength = value;
                 OnPropertyChanged("Strength");
+            }
+        }
+
+        public double Distance
+        {
+            get
+            {
+                return _distance;
+            }
+            set
+            {
+                _distance = value;
+                OnPropertyChanged("Distance");
+            }
+        }
+
+        public double Channel
+        {
+            get
+            {
+                return _channel;
+            }
+            set
+            {
+                _channel = value;
+                OnPropertyChanged("Channel");
             }
         }
 
@@ -217,7 +245,7 @@ namespace SpeedTest.ViewModels
             }
         }
 
-
+        
 
         public ResultViewModel(INavigation navigation)
         {
@@ -333,6 +361,8 @@ namespace SpeedTest.ViewModels
                 resultModel.Ping = ping;
                 resultModel.Download = down;
                 resultModel.Upload = up;
+                resultModel.Distance = Distance;
+                resultModel.Channel = Channel;
          
                 if (resultModel != null)
                 {
@@ -426,19 +456,12 @@ namespace SpeedTest.ViewModels
                     Strength = RSSI >= (-67) ? RSSI.ToString() + " dBm (Excellent)" :
                                RSSI >= (-70) ? RSSI.ToString() + " dBm (Good)" : RSSI.ToString() + " dBm (Bad)";
 
+                    await Task.Delay(1000);
 
-                     await Task.Run(async () => {
-
-                        for (long i = 0; i < long.MaxValue; i++)
-                        {
-                            
-                            await Task.Delay(1000);
-
-                            Device.BeginInvokeOnMainThread(() => {
-                                GetDistance();
-                            });
-                        }
+                    Device.BeginInvokeOnMainThread(() => {
+                        GetDistance();
                     });
+                        
                 }
                 catch (Exception)
                 {
@@ -458,8 +481,6 @@ namespace SpeedTest.ViewModels
         {
             var RSSI = DependencyService.Get<IWiFiStat>().GetSignalStrength();
             var Frequenzy = DependencyService.Get<IWiFiStat>().GetFrequenzy();
-            var ScanResult = DependencyService.Get<IWiFiStat>().GetAvailableSSIDList();
-            //var distance = Math.Pow(10d, ((double)-51 - RSSI) / (10 * 2));
 
             double exp = (27.55 - (20 * Math.Log10(Frequenzy)) + Math.Abs(RSSI)) / 20.0;
             var distance =  Math.Pow(10.0, exp);
@@ -477,6 +498,9 @@ namespace SpeedTest.ViewModels
                     break;
                 }
             }
+
+            Channel = channelNumber;
+            Distance = Math.Round(distance, 2);
 
             Debug.WriteLine(Math.Round(distance, 2)+"m"+$" : Channel {channelNumber}");
         }
