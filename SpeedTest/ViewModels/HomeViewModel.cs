@@ -192,7 +192,7 @@ namespace SpeedTest.ViewModels
             }
         }
 
-        private List<HotelModel> _hotelList = Constants.HotelModelList;
+        private List<HotelModel> _hotelList = Constants.HotelList;
         public List<HotelModel> HotelList
         {
             get

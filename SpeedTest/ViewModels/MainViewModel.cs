@@ -17,6 +17,7 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using SpeedTest.CustomRenders;
 using SpeedTest.Helpers;
+using System.Linq;
 
 namespace SpeedTest.ViewModels
 {
@@ -46,7 +47,7 @@ namespace SpeedTest.ViewModels
         private WebViewer SpeedTestClientView { get; set; }
 
         private INavigation Navigation;
-        private string _hotelName = string.IsNullOrEmpty(Settings.DefaultHotel) ? Constants.HotelName : Settings.DefaultHotel;
+        private string _hotelName = string.Empty;
         private bool _isEnabledButtons = true;
         private bool _isAnimationVisible;
         private bool _isRefreshVisible = false;
@@ -289,9 +290,27 @@ namespace SpeedTest.ViewModels
             await Navigation.PushAsync(new APListView());
         }
 
-        private void OnPageApearing()
+        private async void OnPageApearing()
         {
             IsVisibleButtons = false;
+
+            var hotels = await ApiGETservices.GetAuthHotels(Settings.UserName);
+
+            if(hotels!=null)
+            {
+                Constants.HotelList = hotels;
+
+                if(string.IsNullOrEmpty(Settings.DefaultHotel))
+                {
+                    HotelName = hotels.FirstOrDefault().HotelName;
+                    Constants.HotelCode = hotels.FirstOrDefault().HotelCode;
+                }
+                else
+                {
+                    HotelName = Settings.DefaultHotel;
+                    Constants.HotelCode = hotels.FirstOrDefault(x=>x.HotelName == Settings.DefaultHotel).HotelCode;
+                }
+            }
         }
 
         private async void startTest()
@@ -371,15 +390,19 @@ namespace SpeedTest.ViewModels
 
         private async void HotelNameButtonClicked()
         {
-            string[] hotelArray = Constants.HotelArray;
+
+            string[] hotelArray = Constants.HotelList.Select(h => h.HotelName).ToArray();
 
             var res = await Application.Current.MainPage.DisplayActionSheet("Select your Location", "OK", "Cancel", hotelArray);
-
-            if (res != "Cancel" && res != "OK")
+            if (!string.IsNullOrEmpty(res))
             {
-                HotelName = res;
-                Constants.HotelCode = Constants.HotelDictionary[HotelName];
+                if (res != "Cancel" && res != "OK")
+                {
+                    HotelName = res;
+                    Constants.HotelCode = Constants.HotelList.FirstOrDefault(ht => ht.HotelName == res).HotelCode;
+                }
             }
+            
         }
 
 
