@@ -32,7 +32,13 @@ namespace SpeedTest.ViewModels
             {
                 _userName = value;
                 Constants.UserName = value;
-                OnPropertyChanged();
+
+                if (string.IsNullOrEmpty(Settings.UserName))
+                {
+                    Settings.UserName = value;
+                }
+
+                OnPropertyChanged("UserName");
             }
         }
 
@@ -47,7 +53,7 @@ namespace SpeedTest.ViewModels
             set
             {
                 _password = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Password");
             }
         }
 
@@ -61,7 +67,7 @@ namespace SpeedTest.ViewModels
             set
             {
                 _message = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Message");
             }
         }
 
@@ -111,39 +117,61 @@ namespace SpeedTest.ViewModels
 
         private async void LoginEvent()
         {
-        
-            Console.WriteLine("Tapped");
-            Message = string.Empty;
-            IsRunningIndicator = true;
-            IsLoginBtnEnabled = false;
-
-           
-            var responce =  await DependencyService.Get<ILogin>().LoginUser();
-
-            if (responce != null)
+            try
             {
-                if (string.IsNullOrEmpty(Settings.UserName))
+
+                Console.WriteLine("Tapped");
+                Message = string.Empty;
+                IsRunningIndicator = true;
+                IsLoginBtnEnabled = false;
+
+
+                var responce = await DependencyService.Get<ILogin>().LoginUser();
+
+                if (responce != null)
                 {
-                    Settings.UserName = responce.Username;
+                    
+                    //Settings.Password = Password;
+                    UserName = responce.Username;
+
+                    if (string.IsNullOrEmpty(Settings.FullName))
+                    {
+                        Settings.FullName = responce.FullName;
+                    }
+
+                    await System.Threading.Tasks.Task.Delay(1000);
+                    await Navigation.PopAsync(true);
+                    await Navigation.PushAsync(new HomeView());
+                    IsRunningIndicator = false;
+                    IsLoginBtnEnabled = true;
+
+                    Message = string.Empty;
                 }
-                //Settings.Password = Password;
-                UserName = responce.Username;
+                else
+                {
+                    Message = "Username or password is invalid";
+                    IsRunningIndicator = false;
+                    UserName = string.Empty;
+                    Password = string.Empty;
+                    Settings.FullName = string.Empty;
 
-                await System.Threading.Tasks.Task.Delay(1000);
-                await Navigation.PopAsync(true);
-                await Navigation.PushAsync(new HomeView());
-                IsRunningIndicator = false;
-                IsLoginBtnEnabled = true;
+                    await System.Threading.Tasks.Task.Delay(1000);
+                    IsLoginBtnEnabled = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Message = "Username or password is invalid";
-                IsRunningIndicator = false;
-                UserName = string.Empty;
-                Password = string.Empty;
+                if(ex.Message.Contains("User canceled authentication"))
+                {
+                    Message = "Authentication Failed";
+                    IsRunningIndicator = false;
+                    UserName = string.Empty;
+                    Password = string.Empty;
+                    Settings.FullName = string.Empty;
 
-                await System.Threading.Tasks.Task.Delay(1000);
-                IsLoginBtnEnabled = true;
+                    await System.Threading.Tasks.Task.Delay(1000);
+                    IsLoginBtnEnabled = true;
+                }
             }
 
         }

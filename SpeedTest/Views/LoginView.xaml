@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:customBehaviors="using:SpeedTest.Behaviors;assembly=EventToCommandBehavior" 
@@ -20,6 +20,8 @@
                     <OnPlatform x:TypeArguments="x:Int32" iOS="100" Android="100" />
                 </Button.BorderRadius>
             </Button>
+            
+            <Label Text="{Binding Message,Mode=TwoWay}" FontSize="Small" TextColor="Red" FlexLayout.AlignSelf="Center"/>
 
             <Label Text="Designed and developed by Cinnamon IT  |  All rights reserved  &#10;  Copyrights © 2018" 
                    FontSize="10"

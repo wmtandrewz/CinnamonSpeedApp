@@ -16,6 +16,7 @@ using SpeedTest.Interfaces;
 using SpeedTest.Models;
 using SpeedTest.Services;
 using SpeedTest.Views;
+using SpeedTest.Helpers;
 using Xamarin.Forms;
 
 namespace SpeedTest.ViewModels
@@ -236,6 +237,8 @@ namespace SpeedTest.ViewModels
                 OnPropertyChanged("RoomText");
             }
         }
+
+        public string NameText { get; } = $"Hi! {Settings.FullName}";
 
         private INavigation Navigation { get; set; }
 

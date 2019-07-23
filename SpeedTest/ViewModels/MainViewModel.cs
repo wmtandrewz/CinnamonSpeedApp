@@ -361,7 +361,16 @@ namespace SpeedTest.ViewModels
         {
             await AzureADAuthenticator.LogoutUser();
             Settings.UserName = string.Empty;
-            await Navigation.PopToRootAsync();
+            //await Navigation.PopToRootAsync();
+
+            NavigationPage navigationPage = new NavigationPage(new LoginView())
+            {
+                BarTextColor = Color.White,
+                BackgroundColor = Color.White,
+                BarBackgroundColor = Color.FromHex("#211261")
+            };
+
+            Application.Current.MainPage = navigationPage;
         }
 
         private void RefreshWebView(object obj)

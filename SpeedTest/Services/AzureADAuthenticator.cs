@@ -28,6 +28,7 @@ namespace SpeedTest.Services
                 if (authContext.TokenCache.ReadItems().Any())
                 {
                     authContext = new AuthenticationContext(authContext.TokenCache.ReadItems().First().Authority);
+                    
                 }
                 else
                 {
@@ -47,7 +48,7 @@ namespace SpeedTest.Services
             return new UserModel
             {
                 Username = authResult?.UserInfo.DisplayableId.Split('@')[0],
-                Password = "nopassword"
+                FullName = authResult?.UserInfo.GivenName
             };
         }
 
