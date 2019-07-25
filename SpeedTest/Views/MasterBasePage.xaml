@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SpeedTest.Views.MasterBasePage" xmlns:pages="clr-namespace:SpeedTest.Views">
+    <MasterDetailPage.Master>
+        <ContentPage Title="Settings" x:Name="MasterPage">
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="#211261" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                    <Image Source="icon.png" HeightRequest="60" WidthRequest="60" HorizontalOptions="Start"/>
+                    <Label Text="Cinnamon Speed" TextColor="White" FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                
+                <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                    <ScrollView HorizontalOptions="FillAndExpand">
+                        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+                            <Button Text="AP List" TextColor="White" BackgroundColor="Gray" Command="{Binding APListCommand}" Margin="10,5,10,0" VerticalOptions="Center"/>
+                            <Button Text="ABCD" TextColor="White" BackgroundColor="Gray" Command="{Binding SignOutCommand}" Margin="10,5,10,0" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+                                
+                <StackLayout VerticalOptions="EndAndExpand">
+                    
+                    <BoxView HeightRequest="3" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Color="Gray"/>
+                    
+                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="10">
+                        <StackLayout Orientation="Horizontal" >
+                            <Label Text="Logged-in User" FontAttributes="Bold" FontSize="14" WidthRequest="150"/>
+                            <Label Text="{Binding UserName}"  FontSize="14"/>
+                        </StackLayout>
+                        
+                        <StackLayout Orientation="Horizontal" >
+                            <Label Text="Date" FontAttributes="Bold" FontSize="14" WidthRequest="150"/>
+                            <Label Text="{Binding CurentDate}" FontSize="14"/>
+                        </StackLayout>
+                        
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="App Version" FontAttributes="Bold" FontSize="14" WidthRequest="150"/>
+                            <Label Text="1.0" FontSize="16"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Build Version" FontAttributes="Bold" FontSize="14" WidthRequest="150"/>
+                            <Label Text="1.0001" FontSize="14"/>
+                        </StackLayout>
+                    </StackLayout>
+                    
+                    
+                    <Button Text="Sign-out" TextColor="White" BackgroundColor="#211261" Command="{Binding SignOutCommand}" Margin="10" VerticalOptions="Center">
+                        <Button.BorderRadius>
+                            <OnPlatform x:TypeArguments="x:Int32" iOS="10" Android="10" />
+                        </Button.BorderRadius>
+                    </Button>
+                                        
+                    <Label Text="Designed and developed by Cinnamon IT  |  All rights reserved  &#10;  Copyrights © 2019" 
+                       FontSize="10"
+                       LineBreakMode="CharacterWrap"
+                       HorizontalTextAlignment="Center"
+                       VerticalOptions="Center"
+                       TextColor="#adadad"
+                       Margin="10,20,10,10"/>
+                </StackLayout>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+</MasterDetailPage>

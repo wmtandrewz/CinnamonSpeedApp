@@ -9,6 +9,9 @@ using SpeedTest.Services;
 using SpeedTest.Views;
 using Xamarin.Forms;
 using SpeedTest.Helpers;
+using Plugin.Connectivity;
+using Plugin.Connectivity.Abstractions;
+using System.Linq;
 
 namespace SpeedTest.ViewModels
 {
@@ -117,6 +120,23 @@ namespace SpeedTest.ViewModels
 
         private async void LoginEvent()
         {
+
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error Connection", "Please connect your device to Wi-Fi", "OK");
+                return;
+            }
+            else
+            {
+                var wifi = ConnectionType.WiFi;
+                var connectionTypes = CrossConnectivity.Current.ConnectionTypes;
+                if (!connectionTypes.Contains(wifi))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error Connection", "Please check your Wi-Fi connection", "OK");
+                    return;
+                }
+            }
+
             try
             {
 
@@ -141,7 +161,7 @@ namespace SpeedTest.ViewModels
 
                     await System.Threading.Tasks.Task.Delay(1000);
                     await Navigation.PopAsync(true);
-                    await Navigation.PushAsync(new HomeView());
+                    await Navigation.PushAsync(new MasterBasePage());
                     IsRunningIndicator = false;
                     IsLoginBtnEnabled = true;
 

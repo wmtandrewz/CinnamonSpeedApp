@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "221746017358",
+    "firebase_url": "https://cinnamonnotihub.firebaseio.com",
+    "project_id": "cinnamonnotihub",
+    "storage_bucket": "cinnamonnotihub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221746017358:android:31f42fd7c2edebef",
+        "android_client_info": {
+          "package_name": "com.chml.it.SpeedTest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221746017358-m3ooq5m7tg8sneuhop6205kube674hsg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsqdqcUkB4I-e8fI_mY5boTGkqArVqttQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221746017358-m3ooq5m7tg8sneuhop6205kube674hsg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

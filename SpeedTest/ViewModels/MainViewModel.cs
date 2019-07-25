@@ -29,6 +29,7 @@ namespace SpeedTest.ViewModels
         private bool _isLoading = true;
         private bool _indicatorVisible = true;
         private bool _isVisibleButtons = true;
+        private bool _isVisibleLayout = true;
         private string _roomNumber = string.Empty;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,7 +40,6 @@ namespace SpeedTest.ViewModels
         public ICommand ResultButtonCommand { get; }
         public ICommand RefreshButtonCommand { get; }
         public ICommand LogoutClickedCommand { get; }
-        public ICommand APClickedCommand { get; }
         public ICommand StartButtonCommand { get; }
         public ICommand PageOnAppearingCommand { get; }
 
@@ -175,6 +175,21 @@ namespace SpeedTest.ViewModels
             }
         }
 
+        public bool IsVisibleLayout
+        {
+            get
+            {
+                return _isVisibleLayout;
+            }
+
+            set
+            {
+                _isVisibleLayout = value;
+
+                OnPropertyChanged("IsVisibleLayout");
+            }
+        }
+
         public bool IsVisibleStart
         {
             get
@@ -273,7 +288,6 @@ namespace SpeedTest.ViewModels
             ResultButtonCommand = new Command(ShowResultsClicked);
             RefreshButtonCommand = new Command(RefreshWebView);
             LogoutClickedCommand = new Command(LogoutUser);
-            APClickedCommand = new Command(NavigateToApList);
             StartButtonCommand = new Command(startTest);
             PageOnAppearingCommand = new Command(OnPageApearing);
 
@@ -285,30 +299,47 @@ namespace SpeedTest.ViewModels
             RequestLocationAccess();
         }
 
-        private async void NavigateToApList()
-        {
-            await Navigation.PushAsync(new APListView());
-        }
-
         private async void OnPageApearing()
         {
+            RefreshWebView();
             IsVisibleButtons = false;
+            IsVisibleLayout = true;
 
             var hotels = await ApiGETservices.GetAuthHotels(Settings.UserName);
 
             if(hotels!=null)
             {
-                Constants.HotelList = hotels;
-
-                if(string.IsNullOrEmpty(Settings.DefaultHotel))
+                if (hotels.Count>0)
                 {
-                    HotelName = hotels.FirstOrDefault().HotelName;
-                    Constants.HotelCode = hotels.FirstOrDefault().HotelCode;
+                    Constants.HotelList = hotels;
+
+                    if (string.IsNullOrEmpty(Settings.DefaultHotel))
+                    {
+                        HotelName = hotels.FirstOrDefault().HotelName;
+                        Constants.HotelCode = hotels.FirstOrDefault().HotelCode;
+                    }
+                    else
+                    {
+                        HotelName = Settings.DefaultHotel;
+                        Constants.HotelCode = hotels.FirstOrDefault(x => x.HotelName == Settings.DefaultHotel).HotelCode;
+                    }
                 }
                 else
                 {
-                    HotelName = Settings.DefaultHotel;
-                    Constants.HotelCode = hotels.FirstOrDefault(x=>x.HotelName == Settings.DefaultHotel).HotelCode;
+                    await Application.Current.MainPage.DisplayAlert("Unauthorized!", "You have not been authorized for Cinnamon Properties.", "OK");
+                    await AzureADAuthenticator.LogoutUser();
+                    Settings.UserName = string.Empty;
+                    Settings.FullName = string.Empty;
+                    //await Navigation.PopToRootAsync();
+
+                    NavigationPage navigationPage = new NavigationPage(new LoginView())
+                    {
+                        BarTextColor = Color.White,
+                        BackgroundColor = Color.White,
+                        BarBackgroundColor = Color.FromHex("#211261")
+                    };
+
+                    Application.Current.MainPage = navigationPage;
                 }
             }
         }
@@ -361,6 +392,7 @@ namespace SpeedTest.ViewModels
         {
             await AzureADAuthenticator.LogoutUser();
             Settings.UserName = string.Empty;
+            Settings.FullName = string.Empty;
             //await Navigation.PopToRootAsync();
 
             NavigationPage navigationPage = new NavigationPage(new LoginView())
@@ -373,7 +405,7 @@ namespace SpeedTest.ViewModels
             Application.Current.MainPage = navigationPage;
         }
 
-        private void RefreshWebView(object obj)
+        private void RefreshWebView()
         {
             SpeedTestClientView.RefreshCommand();
             IsVisibleButtons = false;
@@ -458,7 +490,7 @@ namespace SpeedTest.ViewModels
             }
         }
 
-        private async void WebPageNavigated()
+        private void WebPageNavigated()
         {
             
             IsLoading = false;

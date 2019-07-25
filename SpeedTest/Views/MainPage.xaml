@@ -2,10 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:SpeedTest.Views" x:Class="SpeedTest.Views.MainPage" xmlns:customBehaviors="using:SpeedTest.Behaviors;assembly=EventToCommandBehavior" xmlns:control="clr-namespace:SpeedTest.CustomRenders" xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" BackgroundColor="White">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Logout" Priority="1" Command="{Binding LogoutClickedCommand}"/>
-        <ToolbarItem Text="AP" Priority="0" Command="{Binding APClickedCommand}"/>
     </ContentPage.ToolbarItems>
     <ScrollView>
-        <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+        <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsVisibleLayout}">
             
             <StackLayout Padding="20,10,20,10" Orientation="Vertical" VerticalOptions="Start" HorizontalOptions="FillAndExpand" HeightRequest="60" BackgroundColor="Transparent">
                 <Button Text="{Binding HotelName}" FontSize="Medium" TextColor="Navy" HeightRequest="40" VerticalOptions="Center" BackgroundColor="Transparent" BorderWidth="2" BorderColor="Navy" Command="{Binding ChangeHotelCommand}">
